@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ifneq ($(filter bcm_% fbx6lc avko arrow,$(TARGET_DEVICE)),)
+
 LOCAL_PATH := $(call my-dir)
 
 ifneq ($(ANDROID_SUPPORTS_PLAYREADY), n)
@@ -43,5 +45,6 @@ LOCAL_MODULE_SUFFIX := .so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 include $(BUILD_PREBUILT)
 
+endif
 endif
 endif
