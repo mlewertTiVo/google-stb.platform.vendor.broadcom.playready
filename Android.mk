@@ -18,6 +18,13 @@ LOCAL_PATH := $(call my-dir)
 
 ifneq ($(ANDROID_SUPPORTS_PLAYREADY), n)
 
+ifeq ($(TARGET_BUILD_VARIANT),user)
+RELEASE_PREBUILTS := release_prebuilts/user
+else
+RELEASE_PREBUILTS := release_prebuilts/userdebug
+endif
+
+
 # sage adapter library is always prebuilt.
 include $(CLEAR_VARS)
 LOCAL_MODULE := libplayreadypk_host
@@ -35,7 +42,7 @@ LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.so
 endif
 include $(BUILD_PREBUILT)
 
-ifneq ($(wildcard $(TOP)/vendor/broadcom/playready/libplayreadydrmplugin/Android.mk),)
+ifneq ($(wildcard $(TOP)/$(LOCAL_PATH)/libplayreadydrmplugin/Android.mk),)
 
 include $(call first-makefiles-under,$(LOCAL_PATH))
 
@@ -50,11 +57,12 @@ LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
-LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadydrmplugin.so
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadydrmplugin.so
+# prebuilt 64-bit libplayreadydrmplugin.so hasn't been validated, leaving it empty for now
+LOCAL_SRC_FILES_arm64 :=
+LOCAL_SRC_FILES_arm := ../../../${BCM_VENDOR_STB_ROOT}/$(RELEASE_PREBUILTS)/$(LOCAL_MODULE).so
 else
 LOCAL_MODULE_TARGET_ARCH := arm
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadydrmplugin.so
+LOCAL_SRC_FILES_arm := ../../../${BCM_VENDOR_STB_ROOT}/$(RELEASE_PREBUILTS)/$(LOCAL_MODULE).so
 endif
 include $(BUILD_PREBUILT)
 
