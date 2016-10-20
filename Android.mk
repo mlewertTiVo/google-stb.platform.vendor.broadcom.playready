@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifneq ($(filter bcm_% fbx6lc avko arrow,$(TARGET_DEVICE)),)
+ifneq ($(filter bcm_% fbx6lc avko banff,$(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 
@@ -20,14 +20,20 @@ ifneq ($(ANDROID_SUPPORTS_PLAYREADY), n)
 
 # sage adapter library is always prebuilt.
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := prebuilt/libplayreadypk_host.so
 LOCAL_MODULE := libplayreadypk_host
-LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := .so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+ifeq ($(TARGET_2ND_ARCH),arm)
+LOCAL_MULTILIB := both
+LOCAL_MODULE_TARGET_ARCH := arm arm64
+LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadypk_host.so
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.so
+else
+LOCAL_MODULE_TARGET_ARCH := arm
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.so
+endif
 include $(BUILD_PREBUILT)
-
 
 ifneq ($(wildcard $(TOP)/vendor/broadcom/playready/libplayreadydrmplugin/Android.mk),)
 
@@ -36,13 +42,20 @@ include $(call first-makefiles-under,$(LOCAL_PATH))
 else
 
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := prebuilt/libplayreadydrmplugin.so
 LOCAL_MODULE := libplayreadydrmplugin
-LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 LOCAL_MODULE_RELATIVE_PATH := mediadrm
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := .so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+ifeq ($(TARGET_2ND_ARCH),arm)
+LOCAL_MULTILIB := both
+LOCAL_MODULE_TARGET_ARCH := arm arm64
+LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadydrmplugin.so
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadydrmplugin.so
+else
+LOCAL_MODULE_TARGET_ARCH := arm
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadydrmplugin.so
+endif
 include $(BUILD_PREBUILT)
 
 endif
