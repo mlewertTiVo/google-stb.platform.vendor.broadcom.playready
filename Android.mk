@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifneq ($(filter bcm_% fbx6lc avko banff,$(TARGET_DEVICE)),)
+ifneq ($(filter $(BCM_RBOARDS) $(BCM_DBOARDS) $(BCM_CBOARDS),$(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 
