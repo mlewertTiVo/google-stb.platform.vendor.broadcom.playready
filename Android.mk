@@ -29,16 +29,20 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := libplayreadypk_host
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_SUFFIX := .so
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_MODULE_SUFFIX := .a
+LOCAL_MODULE_CLASS := STATIC_LIBRARIES
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
-LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadypk_host.so
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.so
+LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadypk_host.a
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.a
 else
 LOCAL_MODULE_TARGET_ARCH := arm
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.so
+ifeq ($(SAGE_VERSION),2x)
+LOCAL_SRC_FILES_arm := lib/arm/s2x/libplayreadypk_host.a
+else
+LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.a
+endif
 endif
 include $(BUILD_PREBUILT)
 
