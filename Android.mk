@@ -26,11 +26,13 @@ endif
 
 
 # sage adapter library is always prebuilt.
+# PR 2.5
 include $(CLEAR_VARS)
 LOCAL_MODULE := libplayreadypk_host
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := .a
 LOCAL_MODULE_CLASS := STATIC_LIBRARIES
+LOCAL_PROPRIETARY_MODULE := true
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
@@ -42,6 +44,26 @@ ifeq ($(SAGE_VERSION),2x)
 LOCAL_SRC_FILES_arm := lib/arm/s2x/libplayreadypk_host.a
 else
 LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.a
+endif
+endif
+include $(BUILD_PREBUILT)
+
+# PR 3.0
+include $(CLEAR_VARS)
+LOCAL_MODULE := libplayready30pk
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_PROPRIETARY_MODULE := true
+ifeq ($(TARGET_2ND_ARCH),arm)
+LOCAL_MULTILIB := 32
+LOCAL_MODULE_TARGET_ARCH := arm arm64
+LOCAL_SRC_FILES_arm64 := lib/arm64/libplayready30pk.so
+LOCAL_SRC_FILES_arm := lib/arm/libplayready30pk.so
+else
+LOCAL_MODULE_TARGET_ARCH := arm
+ifneq ($(SAGE_VERSION),2x)
+LOCAL_SRC_FILES_arm := lib/arm/libplayready30pk.so
 endif
 endif
 include $(BUILD_PREBUILT)
@@ -59,6 +81,7 @@ LOCAL_MODULE_RELATIVE_PATH := mediadrm
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := .so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_PROPRIETARY_MODULE := true
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
