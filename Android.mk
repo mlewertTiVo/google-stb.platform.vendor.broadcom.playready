@@ -23,6 +23,9 @@ RELEASE_PREBUILTS := release_prebuilts/user
 else
 RELEASE_PREBUILTS := release_prebuilts/userdebug
 endif
+ifeq ($(LOCAL_DEVICE_FULL_TREBLE),y)
+RELEASE_PREBUILTS := ${RELEASE_PREBUILTS}_treble
+endif
 
 
 # sage adapter library is always prebuilt.
