@@ -78,7 +78,7 @@ include $(call first-makefiles-under,$(LOCAL_PATH))
 else
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := libplayreadydrmplugin
+LOCAL_MODULE := libplayreadydrmplugin_2_5
 LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 LOCAL_MODULE_RELATIVE_PATH := mediadrm
 LOCAL_MODULE_TAGS := optional
@@ -88,7 +88,27 @@ LOCAL_PROPRIETARY_MODULE := true
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
-# prebuilt 64-bit libplayreadydrmplugin.so hasn't been validated, leaving it empty for now
+# prebuilt 64-bit libplayreadydrmplugin_2_5.so hasn't been validated, leaving it empty for now
+LOCAL_SRC_FILES_arm64 :=
+LOCAL_SRC_FILES_arm := ../../../${BCM_VENDOR_STB_ROOT}/$(RELEASE_PREBUILTS)/$(LOCAL_MODULE).so
+else
+LOCAL_MODULE_TARGET_ARCH := arm
+LOCAL_SRC_FILES_arm := ../../../${BCM_VENDOR_STB_ROOT}/$(RELEASE_PREBUILTS)/$(LOCAL_MODULE).so
+endif
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libplayreadydrmplugin_3_0
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
+LOCAL_MODULE_RELATIVE_PATH := mediadrm
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_PROPRIETARY_MODULE := true
+ifeq ($(TARGET_2ND_ARCH),arm)
+LOCAL_MULTILIB := both
+LOCAL_MODULE_TARGET_ARCH := arm arm64
+# prebuilt 64-bit libplayreadydrmplugin_3_0.so hasn't been validated, leaving it empty for now
 LOCAL_SRC_FILES_arm64 :=
 LOCAL_SRC_FILES_arm := ../../../${BCM_VENDOR_STB_ROOT}/$(RELEASE_PREBUILTS)/$(LOCAL_MODULE).so
 else
