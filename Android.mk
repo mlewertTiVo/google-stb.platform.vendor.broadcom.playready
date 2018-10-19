@@ -27,6 +27,11 @@ ifeq ($(LOCAL_DEVICE_FULL_TREBLE),y)
 RELEASE_PREBUILTS := ${RELEASE_PREBUILTS}_treble
 endif
 
+ifeq ($(NEXUS_SECURITY_API_VERSION),2)
+SEC_API_VER := secv2
+else
+SEC_API_VER := secv1
+endif
 
 # sage adapter library is always prebuilt.
 # PR 2.5
@@ -39,14 +44,14 @@ LOCAL_PROPRIETARY_MODULE := true
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_TARGET_ARCH := arm arm64
-LOCAL_SRC_FILES_arm64 := lib/arm64/libplayreadypk_host.a
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.a
+LOCAL_SRC_FILES_arm64 := lib/arm64/$(SEC_API_VER)/libplayreadypk_host.a
+LOCAL_SRC_FILES_arm := lib/arm/$(SEC_API_VER)/libplayreadypk_host.a
 else
 LOCAL_MODULE_TARGET_ARCH := arm
 ifeq ($(SAGE_VERSION),2x)
 LOCAL_SRC_FILES_arm := lib/arm/s2x/libplayreadypk_host.a
 else
-LOCAL_SRC_FILES_arm := lib/arm/libplayreadypk_host.a
+LOCAL_SRC_FILES_arm := lib/arm/$(SEC_API_VER)/libplayreadypk_host.a
 endif
 endif
 include $(BUILD_PREBUILT)
@@ -61,12 +66,12 @@ LOCAL_PROPRIETARY_MODULE := true
 ifeq ($(TARGET_2ND_ARCH),arm)
 LOCAL_MULTILIB := 32
 LOCAL_MODULE_TARGET_ARCH := arm arm64
-LOCAL_SRC_FILES_arm64 := lib/arm64/libplayready30pk.so
-LOCAL_SRC_FILES_arm := lib/arm/libplayready30pk.so
+LOCAL_SRC_FILES_arm64 := lib/arm64/$(SEC_API_VER)/libplayready30pk.so
+LOCAL_SRC_FILES_arm := lib/arm/$(SEC_API_VER)/libplayready30pk.so
 else
 LOCAL_MODULE_TARGET_ARCH := arm
 ifneq ($(SAGE_VERSION),2x)
-LOCAL_SRC_FILES_arm := lib/arm/libplayready30pk.so
+LOCAL_SRC_FILES_arm := lib/arm/$(SEC_API_VER)/libplayready30pk.so
 endif
 endif
 include $(BUILD_PREBUILT)
